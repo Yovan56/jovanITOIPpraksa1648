@@ -3,10 +3,13 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
-require __DIR__ . '/../includes/PHPMAiler-master/src/Exception.php';
-require __DIR__ . '/../includes/PHPMAiler-master/src/PHPMailer.php';
-require __DIR__ . '/../includes/PHPMAiler-master/src/SMTP.php';
-require __DIR__ . '/../config.php';
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../includes/PHPMAiler-master/src/Exception.php';
+require_once __DIR__ . '/../includes/PHPMAiler-master/src/PHPMailer.php';
+require_once __DIR__ . '/../includes/PHPMAiler-master/src/SMTP.php';
+
+require_once __DIR__ . '/../tabele/Mejl.php';
+
 
 if (
     isset($_POST['ime']) && 
@@ -19,6 +22,10 @@ if (
     $naslov = $_POST['naslov'];
     $mejl = $_POST['mejl'];
     $poruka = $_POST['poruka'];
+   
+    Mejl::insertMejl($_POST['ime'],$_POST['prezime'],$_POST['naslov'],$_POST['mejl'],$_POST['poruka']);
+
+    
     $spojeno = "<p>".$poruka."</p><br><p>".$imePrezime."&nbsp;&lt;".$mejl."&gt;</p>";
 }
 
@@ -34,7 +41,7 @@ $mail->SMTPOptions = array(
     )
 );
 $mail->SMTPAuth = true;
-$mail->Host = HOST;
+$mail->Host = HOST_MAIL;
 $mail->Port = PORT;
 $mail->Username = USERNAME;
 $mail->Password = PASSWORD;
